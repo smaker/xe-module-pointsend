@@ -75,6 +75,11 @@ class pointsend extends ModuleObject
 		$content = str_replace('%RECEIVER_SRL', $receiver_info->member_srl, $content);
 		$content = str_replace('%POINT%', $point, $content);
 	}
+	
+	public function makeObject($code = 0, $msg = '')
+	{
+		return class_exists('BaseObject') ? new BaseObject($code, $msg) : new Object($code, $msg);
+	}
 }
 
 /* End of file : pointsend.admin.view.php */
