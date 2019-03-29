@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendAdminController
- * @author 퍼니엑스이 (admin@funnyxe.com)
+ * @author 퍼니XE (admin@funnyxe.com)
  * @brief  pointsend 모듈의 Admin Controller class
  **/
 
@@ -10,14 +10,14 @@ class pointsendAdminController extends pointsend
 	/**
 	 * @brief 초기화
 	 **/
-	function init()
+	public function init()
 	{
 	}
 
 	/**
 	 * @brief 설정 저장
 	 */
-	function procPointsendAdminInsertConfig()
+	public function procPointsendAdminInsertConfig()
 	{
 		$oPointsendModel = getModel('pointsend');
 
@@ -96,9 +96,9 @@ class pointsendAdminController extends pointsend
 	/**
 	 * @brief 포인트 선물 취소 (관리자용)
 	 */
-	function procPointsendAdminRevert() {
+	public function procPointsendAdminRevert() {
 		$log_srl = (int)Context::get('log_srl');
-		if(!$log_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$log_srl) return $this->makeObject(-1, 'msg_invalid_request');
 
 		$oPointsendModel = getModel('pointsend');
 		$log_info = $oPointsendModel->getLogInfoByLogSrl($log_srl);
@@ -106,7 +106,7 @@ class pointsendAdminController extends pointsend
 		$sender_srl = (int)$log_info->sender_srl;
 		$receiver_srl = (int)$log_info->receiver_srl;
 
-		if(!$sender_srl || !$receiver_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$sender_srl || !$receiver_srl) return $this->makeObject(-1, 'msg_invalid_request');
 
 		$oMemberModel = getModel('member');
 		$config = $oPointsendModel->getConfig();
@@ -150,7 +150,7 @@ class pointsendAdminController extends pointsend
 		}
 	}
 
-	function procPointsendAdminSendToMember()
+	public function procPointsendAdminSendToMember()
 	{
 		$obj = Context::gets('user_id', 'member_srls', 'point', 'message_title', 'message_body');
 
@@ -184,7 +184,7 @@ class pointsendAdminController extends pointsend
 
 		if(!$obj->member_srls)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		$oController = getController('pointsend');
@@ -204,9 +204,10 @@ class pointsendAdminController extends pointsend
 	/**
 	 * @brief 일괄 포인트 선물 - 그룹별
 	 */
-	function procPointsendAdminSendToGroup() {
+	public function procPointsendAdminSendToGroup()
+	{
 		$cart = Context::get('cart');
-		if(!$cart) return new Object(-1, 'msg_invalid_request');
+		if(!$cart) return $this->makeObject(-1, 'msg_invalid_request');
 
 		$group_srls = str_replace('|@|', ',', Context::get('cart'));
 		$send_point = Context::get('point');
@@ -235,9 +236,9 @@ class pointsendAdminController extends pointsend
 	/**
 	 * @brief 포인트 선물 내역 삭제
 	 */
-	function procPointsendAdminDeleteLog() {
+	public function procPointsendAdminDeleteLog() {
 		$log_srl = Context::get('log_srl');
-		if(!$log_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$log_srl) return $this->makeObject(-1, 'msg_invalid_request');
 
 		// 삭제
 		$oController = getController('pointsend');

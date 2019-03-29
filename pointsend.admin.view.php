@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendAdminView
- * @author 퍼니엑스이 (admin@funnyxe.com)
+ * @author 퍼니XE (admin@funnyxe.com)
  * @brief  pointsend 모듈의 admin view 클래스
  **/
 
@@ -11,7 +11,7 @@ class pointsendAdminView extends pointsend
 	/**
 	 * @brief 초기화
 	 **/
-	function init()
+	public function init()
 	{
 		// 템플릿 경로 지정 (pointsend의 경우 tpl에 관리자용 템플릿 모아놓음)
 		$template_path = $this->module_path.'tpl';
@@ -21,7 +21,7 @@ class pointsendAdminView extends pointsend
 		Context::addJsFile($this->module_path.'tpl/js/pointsend_admin.js');
 	}
 
-	function dispPointsendAdminIndex()
+	public function dispPointsendAdminIndex()
 	{
 		// 스킨 목록을 구해옴
 		$oModuleModel = getModel('module');
@@ -89,13 +89,13 @@ class pointsendAdminView extends pointsend
 		$this->setTemplateFile('setup_design');
 	}
 
-	function dispPointsendAdminSend()
+	public function dispPointsendAdminSend()
 	{
 		// 템플릿 파일 지정
 		$this->setTemplateFile('send');
 	}
 
-	function dispPointsendAdminSendToGroup()
+	public function dispPointsendAdminSendToGroup()
 	{
 		// 생성된 그룹 목록 구함
 		$oMemberModel = getModel('member');
@@ -106,7 +106,7 @@ class pointsendAdminView extends pointsend
 		$this->setTemplateFile('send_group');
 	}
 
-	function dispPointsendAdminLogList()
+	public function dispPointsendAdminLogList()
 	{
 		// 포인트 선물 내역 목록 구함
 		$oPointsendModel = getModel('pointsend');
@@ -128,7 +128,7 @@ class pointsendAdminView extends pointsend
 		$this->setTemplateFile('log_list');
 	}
 
-	function dispPointsendAdminBatchLogList() {
+	public function dispPointsendAdminBatchLogList() {
 		// 포인트 선물 내역 목록 구함
 		$oPointsendModel = getModel('pointsend');
 
@@ -149,20 +149,20 @@ class pointsendAdminView extends pointsend
 		$this->setTemplateFile('batch_log_list');
 	}
 
-	function dispPointsendAdminRevert()
+	public function dispPointsendAdminRevert()
 	{
 		// 템플릿 파일 지정
 		$this->setTemplateFile('revert');
 	}
 
-	function dispPointsendAdminDeleteLog()
+	public function dispPointsendAdminDeleteLog()
 	{
 		$log_srl = Context::get('log_srl');
-		if(!$log_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$log_srl) return $this->makeObject(-1, 'msg_invalid_request');
 
 		$oModel = getModel('pointsend');
 		$log_info = $oModel->getLogInfoByLogSrl($log_srl);
-		if(!$log_info) return new Object(-1, 'msg_invalid_request');
+		if(!$log_info) return $this->makeObject(-1, 'msg_invalid_request');
 
 		Context::set('log_info', $log_info);
 

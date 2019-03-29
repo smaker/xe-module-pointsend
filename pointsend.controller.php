@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendController
- * @author 퍼니엑스이 (admin@funnyxe.com)
+ * @author 퍼니XE (admin@funnyxe.com)
  * @brief  pointsend 모듈의 Controller class
  **/
 
@@ -24,7 +24,7 @@ class pointsendController extends pointsend
 		// 로그인 상태가 아니면 로그인이 필요하다는 메시지 출력
 		if(!$logged_info)
 		{
-			return new Object(-1, 'msg_need_login');
+			return $this->makeObject(-1, 'msg_need_login');
 		}
 
 		// 입력 받은 데이터 검사
@@ -100,7 +100,7 @@ class pointsendController extends pointsend
 		// 보내는 이와 받는 이가 없으면 에러
 		if(!$sender_srl || !$receiver_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		// 로그인 정보 구함
@@ -109,19 +109,19 @@ class pointsendController extends pointsend
 		// 보낼 포인트가 없거나(잘못되었거나) 0보다 작을 경우 에러
 		if(!$point || ($logged_info->is_admin != 'Y' && $point<0))
 		{
-			return new Object(-1, 'msg_invalid_send_point');
+			return new $this->makeObject(-1, 'msg_invalid_send_point');
 		}
 
 		// 로그인 한 회원과 받는이가 같으면 에러
 		if($logged_info->member_srl == $receiver_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		// 로그인 한 회원과 보내는이가 다르면 에러
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $sender_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		$oPointsendModel = getModel('pointsend');
@@ -144,21 +144,21 @@ class pointsendController extends pointsend
 
 		if(!$oSender)
 		{
-			return new Object(-1, 'msg_not_exists_sender');
+			return new $this->makeObject(-1, 'msg_not_exists_sender');
 		}
 
 		// 받는이가 존재 하지 않으면 에러
 		if(!$receiver_exists)
 		{
 			$oReceiver = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
-			if(!$oReceiver) return new Object(-1, 'msg_not_exists_receiver');
+			if(!$oReceiver) return $this->makeObject(-1, 'msg_not_exists_receiver');
 		}
 
 		// 보내는이의 포인트를 구함
 		$oSender->point = $oPointModel->getPoint($sender_srl);
 
 		// 보내는이의 포인트가 보낼 포인트보다 작으면 에러
-		if($oSender->is_admin != 'Y' && $oSender->point < $point) return new Object(-1, 'msg_not_enough_send_point');
+		if($oSender->is_admin != 'Y' && $oSender->point < $point) return $this->makeObject(-1, 'msg_not_enough_send_point');
 
 		$real_point = (int)$point;
 
@@ -175,7 +175,7 @@ class pointsendController extends pointsend
 				$total_point = $oPointsendModel->getTodaySentPoint($sender_srl);
 				if(($total_point + $point) > $daily_limit)
 				{
-					return new Object(-1, sprintf(Context::getLang('msg_pointgift_daily_limit_over'), $daily_limit));
+					return $this->makeObject(-1, sprintf(Context::getLang('msg_pointgift_daily_limit_over'), $daily_limit));
 				}
 			}
 
@@ -191,7 +191,7 @@ class pointsendController extends pointsend
 					foreach($groups as $group_srl => $group_title)
 					{
 						// 선물 제한 그룹에 해당되어있다면 에러메시지를 출력
-						if(in_array($group_srl, $deny_group)) return new Object(-1, sprintf(Context::getLang('msg_pointgift_denied_group'),$group_title));
+						if(in_array($group_srl, $deny_group)) return $this->makeObject(-1, sprintf(Context::getLang('msg_pointgift_denied_group'),$group_title));
 					}
 				}
 			}
@@ -213,7 +213,7 @@ class pointsendController extends pointsend
 
 				$receiver_ip = $output->data->ipaddress;
 
-				if(($current_ip && $receiver_ip) && $current_ip == $receiver_ip) return new Object(-1, 'msg_pointgift_sameip_warning');
+				if(($current_ip && $receiver_ip) && $current_ip == $receiver_ip) return $this->makeObject(-1, 'msg_pointgift_sameip_warning');
 			}
 		}
 
@@ -267,7 +267,7 @@ class pointsendController extends pointsend
 		$this->add('send_point', $real_point);
 		$this->add('received_point', $point);
 
-		return new Object();
+		return $this->makeObject();
 	}
 
 	/**
@@ -279,17 +279,17 @@ class pointsendController extends pointsend
 		$logged_info = Context::get('logged_info');
 
 		// 로그인 상태가 아니거나 최고 관리자가 아니면 에러
-		if(!$logged_info || $logged_info->is_admin != 'Y') return new Object(-1, 'msg_invalid_request');
+		if(!$logged_info || $logged_info->is_admin != 'Y') return $this->makeObject(-1, 'msg_invalid_request');
 
 		// 넘어온 회원이 없으면 에러
-		if(!$member_srls) return new Object(-1, 'msg_invalid_request');
+		if(!$member_srls) return $this->makeObject(-1, 'msg_invalid_request');
 
 		// 넘어온 회원을 정리
 		$target_members = array_unique(explode(',', $member_srls));
 		$member_count = count($target_members);
 
 		// 보낼 회원이 없으면 에러
-		if($member_count < 1) return new Object(-1, 'msg_invalid_request');
+		if($member_count < 1) return $this->makeObject(-1, 'msg_invalid_request');
 
 		// member 모듈의 model 객체
 		$oMemberModel = getModel('member');
@@ -324,7 +324,7 @@ class pointsendController extends pointsend
 
 		$this->add('member_count', $member_count);
 
-		return new Object();
+		return $this->makeObject();
 	}
 
 	/**
@@ -336,10 +336,10 @@ class pointsendController extends pointsend
 		$logged_info = Context::get('logged_info');
 
 		// 로그인 상태가 아니거나 최고 관리자가 아니면 에러
-		if(!$logged_info || $logged_info->is_admin != 'Y') return new Object(-1, 'msg_invalid_request');
+		if(!$logged_info || $logged_info->is_admin != 'Y') return $this->makeObject(-1, 'msg_invalid_request');
 
 		// 넘어온 그룹이 없으면 에러
-		if(!$group_srls) return new Object(-1, 'msg_invalid_request');
+		if(!$group_srls) return $this->makeObject(-1, 'msg_invalid_request');
 
 		// 넘어온 그룹을 정리
 		$target_groups = array_unique(explode(',', $group_srls));
@@ -349,7 +349,7 @@ class pointsendController extends pointsend
 		$ignore = 0;
 
 		// 보낼 그룹이 없으면 에러
-		if($group_count < 1) return new Object(-1, 'msg_invalid_request');
+		if($group_count < 1) return $this->makeObject(-1, 'msg_invalid_request');
 
 		// member 모듈의 model 객체
 		$oMemberModel = getModel('member');
@@ -429,7 +429,7 @@ class pointsendController extends pointsend
 		$this->add('failed_group', $failed);
 		$this->add('ignore_group', $ignore);
 
-		return new Object();
+		return $this->makeObject;
 	}
 
 	/**
@@ -437,7 +437,7 @@ class pointsendController extends pointsend
 	 */
 	function pointsendToAll($unit_number, $point, $title, $content)
 	{
-		return new Object();
+		return $this->makeObject;
 	}
 
 	/**
@@ -483,17 +483,17 @@ class pointsendController extends pointsend
 
 	/**
 	 * @brief 회원 탈퇴 시 기록된 포인트 선물 내역 삭제
-	 * @return new Object
+	 * @return Object
 	 */
 	function triggerDeleteMember(&$obj)
 	{
 		$member_srl = (int)$obj->member_srl;
-		if(!$member_srl) return new Object();
+		if(!$member_srl) return $this->makeObject();
 
 		$output = $this->deleteMemberLogs($member_srl);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return $this->makeObject();
 	}
 
 	/**
