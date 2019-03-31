@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendModel
- * @author 퍼니엑스이 (admin@funnyxe.com)
+ * @author 퍼니XE (contact@funnyxe.com)
  * @brief pointsend 모듈의 Model class
  **/
 
@@ -21,6 +21,7 @@ class pointsendModel extends pointsend
 	function getGrantInfo()
 	{
 		static $module_config = null;
+
 		if(is_null($module_config))
 		{
 			$oModuleModel = getModel('module');

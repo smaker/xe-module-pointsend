@@ -1,4 +1,10 @@
 <?php
+/**
+ * @class  pointsendMobile
+ * @author 퍼니XE (contact@funnyxe.com)
+ * @brief pointsend 모듈의 mobile class
+ **/
+
 class pointsendMobile extends pointsendView
 {
 	public function init()
@@ -20,13 +26,13 @@ class pointsendMobile extends pointsendView
 		$member_srl = Context::get('receiver_srl');
 		if(!$member_srl)
 		{
-			return new Object(-1, 'msg_not_exists_receiver');
+			return $this->makeObject(-1, 'msg_not_exists_receiver');
 		}
 
 		// 받는이가 로그인 한 회원과 같으면 에러
 		if($logged_info->member_srl == $member_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		// 존재 하지 않는 회원이면 에러
@@ -34,7 +40,7 @@ class pointsendMobile extends pointsendView
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 		if(!$member_info)
 		{
-			return new Object(-1, 'msg_not_exists_member');
+			return $this->makeObject(-1, 'msg_not_exists_member');
 		}
 
 		$config = Context::get('pointsend_config');
@@ -48,7 +54,7 @@ class pointsendMobile extends pointsendView
 				$total_point = $oModel->getTodaySentPoint($logged_info->member_srl);
 				if($daily_limit < $total_point)
 				{
-					return new Object(-1, sprintf(Context::getLang('msg_pointgift_daily_limit_over'),$daily_limit));
+					return $this->makeObject(-1, sprintf(Context::getLang('msg_pointgift_daily_limit_over'),$daily_limit));
 				}
 			}
 
@@ -61,7 +67,7 @@ class pointsendMobile extends pointsendView
 				{
 					foreach($groups as $group_srl => $group_title)
 					{
-						if(in_array($group_srl, $deny_group)) return new Object(-1, sprintf(Context::getLang('msg_pointgift_denied_group'),$group_title));
+						if(in_array($group_srl, $deny_group)) return $this->makeObject(-1, sprintf(Context::getLang('msg_pointgift_denied_group'),$group_title));
 					}
 				}
 			}

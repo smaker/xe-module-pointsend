@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendController
- * @author 퍼니XE (admin@funnyxe.com)
+ * @author 퍼니XE (contact@funnyxe.com)
  * @brief  pointsend 모듈의 Controller class
  **/
 
@@ -429,7 +429,7 @@ class pointsendController extends pointsend
 		$this->add('failed_group', $failed);
 		$this->add('ignore_group', $ignore);
 
-		return $this->makeObject;
+		return $this->makeObject();
 	}
 
 	/**
@@ -437,7 +437,7 @@ class pointsendController extends pointsend
 	 */
 	function pointsendToAll($unit_number, $point, $title, $content)
 	{
-		return $this->makeObject;
+		return $this->makeObject();
 	}
 
 	/**

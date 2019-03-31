@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendAdminController
- * @author 퍼니XE (admin@funnyxe.com)
+ * @author 퍼니XE (contact@funnyxe.com)
  * @brief  pointsend 모듈의 Admin Controller class
  **/
 
@@ -21,7 +21,7 @@ class pointsendAdminController extends pointsend
 	{
 		$oPointsendModel = getModel('pointsend');
 
-		$config = $oPointsendModel->getConfig(true);
+		$config = getModel('pointsend')->getConfig(true);
 		$config->use_fee = Context::get('use_fee');
 		$config->fee_apply_point = Context::get('fee_apply_point');
 		$config->fee_but_group = Context::get('fee_but_group');
@@ -51,9 +51,7 @@ class pointsendAdminController extends pointsend
 	 */
 	public function procPointsendAdminGrantSetup()
 	{
-		$oPointsendModel = getModel('pointsend');
-
-		$config = $oPointsendModel->getConfig(true);
+		$config = getModel('pointsend')->getConfig(true);
 		$config->grants = Context::get('grants');
 
 		$oModuleController = getController('module');
