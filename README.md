@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/smaker/xe-module-pointsend.svg?branch=master)](https://travis-ci.org/smaker/pointsend)
+[![Build Status](https://travis-ci.org/smaker/xe-module-pointsend.svg?branch=master)](https://travis-ci.org/smaker/xe-module-pointsend)
 [![License](http://img.shields.io/badge/license-GNU%20LGPL-brightgreen.svg)](http://www.gnu.org/licenses/gpl.html)
 [![Latest release](http://img.shields.io/github/release/smaker/xe-module-pointsend.svg)](https://github.com/smaker/xe-module-pointsend/releases)
 
