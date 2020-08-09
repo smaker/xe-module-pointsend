@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendAdminView
- * @author 퍼니XE (admin@funnyxe.com)
+ * @author 퍼니XE (funnyxe@simplesoft.io)
  * @brief  pointsend 모듈의 admin view 클래스
  **/
 

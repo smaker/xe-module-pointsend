@@ -1,7 +1,7 @@
 <?php
 /**
  * @class  pointsendMobile
- * @author 퍼니XE (contact@funnyxe.com)
+ * @author 퍼니XE (funnyxe@simplesoft.io)
  * @brief pointsend 모듈의 mobile class
  **/
 
