@@ -15,6 +15,7 @@
 		<action name="dispPointsendAdminSendToMember" type="view" />
 		<action name="dispPointsendAdminSendToAll" type="view" />
 		<action name="dispPointsendAdminLogList" type="view" />
+		<action name="dispPointsendAdminDeleteLog" type="view" />
 		<action name="dispPointsendAdminBatchLogList" type="view" />
 		<action name="dispPointsendAdminRevert" type="view" />
 
