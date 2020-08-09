@@ -21,6 +21,7 @@
 			<th>{$lang->sender}</th>
 			<th>{$lang->receiver}</th>
 			<th>{$lang->point}</th>
+			<th>{$lang->fee}</th>
 			<th>{$lang->ipaddress}</th>
 			<th>{$lang->date}</th>
 			<th>&nbsp;</th>
@@ -42,7 +43,8 @@
 			<td>
 				<div class="member_{$receiver->member_srl}">{$receiver->nick_name}</div>
 			</td>
-			<td>{$val->point}</td>
+			<td>{number_format($val->point)}</td>
+			<td>{number_format($val->fee)}</td>
 			<td>{$val->ipaddress}</td>
 			<td>{zdate($val->regdate)}</td>
 			<td class="center">
@@ -53,7 +55,7 @@
 			</td>
 		</tr>
 		<tr cond="$val->comment">
-			<td colspan="7">{htmlspecialchars($val->comment)}</td>
+			<td colspan="8">{htmlspecialchars($val->comment)}</td>
 		</tr>
 		<!--@end-->
 		<!--@else-->

@@ -234,8 +234,6 @@ class pointsendController extends pointsend
 			$point -= $fee;
 		}
 
-
-
 		// 보내는 이는 포인트 (-), 받는 이는 포인트 (+)
 		$oSender->point -= (int)$real_point;
 		$oReceiver->point = $oPointModel->getPoint($receiver_srl) + $point;
@@ -262,10 +260,11 @@ class pointsendController extends pointsend
 		}
 
 		// 포인트 선물 내역 기록
-		$this->insertLog($sender_srl, $receiver_srl, $real_point, $comment);
+		$this->insertLog($sender_srl, $receiver_srl, $real_point, $comment, $fee);
 
 		$this->add('send_point', $real_point);
 		$this->add('received_point', $point);
+		$this->add('fee', $fee);
 
 		return $this->makeObject();
 	}
@@ -443,9 +442,12 @@ class pointsendController extends pointsend
 	/**
 	 * @brief 포인트 선물 내역 추가
 	 */
-	function insertLog($sender_srl, $receiver_srl, $point, $comment)
+	function insertLog($sender_srl, $receiver_srl, $point, $comment, $fee = 0)
 	{
-		if(!$sender_srl || !$receiver_srl || !$point) return;
+		if(!$sender_srl || !$receiver_srl || !$point)
+		{
+			return $this->makeObject();
+		}
 
 		$args = new stdClass;
 		$args->log_srl = getNextSequence();
@@ -453,6 +455,7 @@ class pointsendController extends pointsend
 		$args->receiver_srl = $receiver_srl;
 		$args->ipaddress = $ipaddress ? $ipaddress : $_SERVER['REMOTE_ADDR'];
 		$args->point = $point;
+		$args->fee = $fee;
 		$args->comment = $comment;
 		return executeQuery('pointsend.insertPointsendLog',$args);
 	}

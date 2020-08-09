@@ -9,6 +9,7 @@
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 		<column name="point" var="point" filter="number" notnull="notnull" />
 		<column name="comment" var="comment" />
+		<column name="fee" var="fee" filter="number" notnull="notnull" default="0" />
 		<column name="regdate" var="regdate" default="curdate()" />
 	</columns>
 </query>

@@ -32,6 +32,12 @@ class pointsend extends ModuleObject
 			return true;
 		}
 
+		// 수수료 column 추가
+		if(!$oDB->isColumnExists('pointsend_log', 'fee'))
+		{
+			return true;
+		}
+
 		if(!getModel('module')->getTrigger('member.deleteMember', 'pointsend', 'controller', 'triggerDeleteMember', 'after')) 
 		{
 			return true;
@@ -52,6 +58,13 @@ class pointsend extends ModuleObject
 		if(!$oDB->isColumnExists('pointsend_log', 'comment'))
 		{
 			$oDB->addColumn('pointsend_log','comment','text','',0);
+		}
+
+		// 수수료 column 추가
+		if(!$oDB->isColumnExists('pointsend_log', 'fee'))
+		{
+			$oDB->addColumn('pointsend_log', 'fee', 'number', 11, 0);
+			$oDB->addIndex('pointsend_log', 'idx_fee', 'fee');
 		}
 
 		if(!getModel('module')->getTrigger('member.deleteMember', 'pointsend', 'controller', 'triggerDeleteMember', 'after')) 
@@ -86,7 +99,7 @@ class pointsend extends ModuleObject
 		$content = str_replace('%POINT%', $point, $content);
 	}
 	
-	public function makeObject($code = 0, $msg = '')
+	public function makeObject($code = 0, $msg = 'success')
 	{
 		return class_exists('BaseObject') ? new BaseObject($code, $msg) : new Object($code, $msg);
 	}
