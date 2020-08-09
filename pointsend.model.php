@@ -70,8 +70,6 @@ class pointsendModel extends pointsend
 
 			$logged_info = Context::get('logged_info');
 
-			$tmp_group = array();
-
 			if($logged_info)
 			{
 				$this->_supportLegacyConfig($config);
@@ -79,7 +77,7 @@ class pointsendModel extends pointsend
 				// 소속된 그룹을 검사하여 그룹에 맞는 수수료를 구함
 				if(!$is_admin)
 				{
-					if(count($tmp_group) && is_array($logged_info->group_list) && count($logged_info->group_list))
+					if(is_array($logged_info->group_list) && count($logged_info->group_list))
 					{
 						foreach($logged_info->group_list as $key => $val)
 						{

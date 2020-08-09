@@ -59,7 +59,11 @@
 	<script type="text/javascript">
 	var cf_useFee = '{$pointsend_config->use_fee}';
 	<!--@if($pointsend_config->use_fee == 'Y')-->
-	var cf_fee = {$pointsend_config->fee};
+	<!--@if($pointsend_config->fee)-->
+		var cf_fee = {$pointsend_config->fee};
+		<!--@else-->
+		var cf_fee = 0;
+		<!--@end-->
 	var cf_feePoint = {$pointsend_config->fee_apply_point};
 	<!--@end-->
 	var cf_curPoint = {$current_point};
